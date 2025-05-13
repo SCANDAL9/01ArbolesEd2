@@ -560,4 +560,27 @@ implements IArbolBusqueda<T> {
 
         return sb.toString();
     }
+
+    public int nroHijosIzqNoVaciosDesdeNivel(int nivel) {
+        return nroHijosIzqNoVaciosDesdeNivel(this.raiz, nivel, 0);
+    }
+    private int nroHijosIzqNoVaciosDesdeNivel(NodoBinario<T> nodoActual,
+                                              int nivelObjetivo, int nivelActual) {
+        if (NodoBinario.esNodoVacio(nodoActual)) {
+            return 0;
+        }
+        int cant = 0;
+        if (nivelActual >= nivelObjetivo) {
+            if (!NodoBinario.esNodoVacio(nodoActual.getHijoIzquierdo()) &&
+                    NodoBinario.esNodoVacio(nodoActual.getHijoDerecho())) {
+                cant++;
+            }
+        }
+
+        cant += nroHijosIzqNoVaciosDesdeNivel(nodoActual.getHijoIzquierdo(), nivelObjetivo,
+                nivelActual + 1);
+        cant += nroHijosIzqNoVaciosDesdeNivel(nodoActual.getHijoDerecho(), nivelObjetivo,
+                nivelActual + 1);
+        return cant;
+    }
 }

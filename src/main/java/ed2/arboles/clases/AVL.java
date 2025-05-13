@@ -140,6 +140,4 @@ public class AVL <T extends Comparable<T>>
         return altura(nodoActual.getHijoIzquierdo())
                 - altura(nodoActual.getHijoDerecho());
     }
-
-
 }

@@ -6,7 +6,9 @@ package ed2.arboles.ui;
 
 import ed2.arboles.clases.AVL;
 import ed2.arboles.clases.ArbolBinarioBusqueda;
+import ed2.arboles.clases.ArbolMViasBusqueda;
 import ed2.arboles.clases.IArbolBusqueda;
+import ed2.arboles.excepciones.ExcepcionDatoNoExiste;
 import ed2.arboles.excepciones.ExcepcionDatoYaExiste;
 import ed2.arboles.excepciones.ExcepcionRecorridosInvalidos;
 
@@ -16,7 +18,7 @@ import ed2.arboles.excepciones.ExcepcionRecorridosInvalidos;
  */
 public class TestArboles {
     
-    public static void main(String[] args) throws ExcepcionDatoYaExiste, ExcepcionRecorridosInvalidos {
+    public static void main(String[] args) throws ExcepcionDatoYaExiste, ExcepcionRecorridosInvalidos, ExcepcionDatoNoExiste {
     
         IArbolBusqueda<Integer> arbolBusqueda;
         arbolBusqueda = new ArbolBinarioBusqueda<>();
@@ -77,7 +79,7 @@ public class TestArboles {
        */
 
 
-        AVL<Integer> arbolAVL;
+       /* AVL<Integer> arbolAVL;
         arbolAVL = new AVL<>();
 
         arbolAVL.insertar(5);
@@ -89,9 +91,38 @@ public class TestArboles {
         arbolAVL.insertar(6);
         arbolAVL.insertar(30);
         arbolAVL.insertar(15);
-        arbolAVL.insertar(17);
+        arbolAVL.insertar(17);*/
+
+        //System.out.println(arbolAVL.toStringVertical());
 
 
-        System.out.println(arbolAVL.toStringVertical());
+
+        //System.out.println(arbolBusqueda.toStringVertical());
+        ArbolBinarioBusqueda arbolBinarioBusqueda = (ArbolBinarioBusqueda) arbolBusqueda;
+        int valor1 = arbolBinarioBusqueda.nroHijosIzqNoVaciosDesdeNivel(3);
+        System.out.println(valor1);
+
+
+        ArbolMViasBusqueda<Integer> arbolMVIAS;
+        arbolMVIAS = new ArbolMViasBusqueda<>();
+
+        int[] datos = {
+                50, 25, 75, 10, 30, 60, 90,
+                5, 15, 27, 33, 55, 65, 85, 95,
+                1, 8, 12, 20, 28, 35, 58, 62,
+                70, 80, 88, 92, 98, 100, 77
+        };
+
+        for (int dato : datos) {
+            arbolMVIAS.insertar(dato);
+        }
+
+        System.out.println(arbolMVIAS.toStringVertical());
+        arbolMVIAS.eliminar(75);
+
+
+        System.out.println(arbolMVIAS.toStringVertical());
+
+
     }    
 }

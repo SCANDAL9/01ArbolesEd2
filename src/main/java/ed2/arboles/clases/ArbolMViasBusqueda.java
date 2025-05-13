@@ -42,22 +42,30 @@ public class ArbolMViasBusqueda<T extends Comparable<T>>
         NodoMVias<T> nodoAux = this.raiz;
         do {
             int posicionDeDatoAInsertar = buscarPosicionDeDatoEnNodo(
-                    nodoAux,
-                    datoAInsertar);
+                    nodoAux, datoAInsertar);
             if ((posicionDeDatoAInsertar != POSICION_INVALIDA)) {
                 throw new ExcepcionDatoYaExiste();
             }
             if (nodoAux.esHoja()) {
                 if (nodoAux.estanDatosLlenos()) {
                     int posicionPorDondeBajar = obtenerPosicionPorDondeBajar(
-                            nodoAux,
-                            datoAInsertar);
+                            nodoAux, datoAInsertar);
                     NodoMVias<T> nuevoNodo = new NodoMVias<>(orden, datoAInsertar);
                     nodoAux.setHijo(posicionPorDondeBajar, nuevoNodo);
                 } else {
                     insertarDatoEnNodoOrdenado(nodoAux, datoAInsertar);
                 }
                 nodoAux = NodoMVias.nodoVacio();
+            } else { //no es Hoja
+                int posicionPorDondeBajar = obtenerPosicionPorDondeBajar(
+                        nodoAux, datoAInsertar);
+                if (nodoAux.esHijoVacio(posicionPorDondeBajar)) {
+                    NodoMVias<T> nuevoNodo = new NodoMVias<>(orden, datoAInsertar);
+                    nodoAux.setHijo(posicionPorDondeBajar, nuevoNodo);
+                    nodoAux = NodoMVias.nodoVacio();
+                } else {
+                    nodoAux = nodoAux.getHijo(posicionPorDondeBajar);
+                }
             }
         } while (!NodoMVias.esNodoVacio(nodoAux));
     }
@@ -125,13 +133,13 @@ public class ArbolMViasBusqueda<T extends Comparable<T>>
                     datoDeReemplazo = obtenerPredecesorInOrden(nodoActual, datoActual);
                 }
                 nodoActual = eliminar(nodoActual, datoDeReemplazo);
-                nodoActual.setDato(i, datoAEliminar);
+                nodoActual.setDato(i, datoDeReemplazo);
                 return nodoActual;
             }
             if (datoAEliminar.compareTo(datoActual) < 0) {
-                NodoMVias<T> supuestoNuevohijo = eliminar(nodoActual.getHijo(i),
+                NodoMVias<T> supuestoNuevoHijo = eliminar(nodoActual.getHijo(i),
                         datoAEliminar);
-                nodoActual.setHijo(i, supuestoNuevohijo);
+                nodoActual.setHijo(i, supuestoNuevoHijo);
                 return nodoActual;
             }
         } //fin de for
@@ -192,7 +200,7 @@ public class ArbolMViasBusqueda<T extends Comparable<T>>
             nodoActual.setDato(j, datoAMover);
         }
         T datoVacio = (T)NodoMVias.datoVacio();
-        nodoActual.setDato(nodoActual.nroDeDatosNoVacios(), datoVacio);
+        nodoActual.setDato(nodoActual.nroDeDatosNoVacios()-1, datoVacio);
     }
 
     @Override
@@ -335,11 +343,6 @@ public class ArbolMViasBusqueda<T extends Comparable<T>>
         return recorrido;
     }
 
-    @Override
-    public String toStringVertical() {
-        return "";
-    }
-
     public boolean nroDeHijosParOHojas() {
         return nroDeHijosParOHojas(this.raiz);
     }
@@ -371,4 +374,62 @@ public class ArbolMViasBusqueda<T extends Comparable<T>>
         }
         return nroHijosNoVacios;
     }
+
+    @Override
+    public String toStringVertical() {
+        // Si el árbol está vacío
+        if (this.raiz == null) {
+            return "(raíz) ||\n";
+        }
+        return toStringVertical("", "(raíz)", this.raiz);
+    }
+
+    /**
+     * Representación vertical para árbol M-vías.
+     *
+     * @param prefix Prefijo para alinear visualmente las ramas.
+     * @param branchLabel Etiqueta antes del dato: (raíz), ├─(i), etc.
+     * @param nodoActual Nodo actual del árbol.
+     * @return Representación vertical como String.
+     */
+    private String toStringVertical(String prefix, String branchLabel, NodoMVias<T> nodoActual) {
+        if (nodoActual == null) {
+            return prefix + branchLabel + " ||\n";
+        }
+
+        // Mostrar todos los datos del nodo
+        StringBuilder datosNodo = new StringBuilder("[");
+        for (int i = 0; i < nodoActual.nroDeDatosNoVacios(); i++) {
+            datosNodo.append(nodoActual.getDato(i));
+            if (i < nodoActual.nroDeDatosNoVacios() - 1) {
+                datosNodo.append(", ");
+            }
+        }
+        datosNodo.append("]");
+
+        // Comenzamos a construir la salida
+        StringBuilder sb = new StringBuilder();
+        sb.append(prefix)
+                .append(branchLabel)
+                .append(" ")
+                .append(datosNodo)
+                .append("\n");
+
+        // Preparar prefijo para los hijos
+        String childPrefix = prefix + "│  ";
+
+        // Mostrar todos los hijos
+        for (int i = 0; i < this.orden; i++) {
+            NodoMVias<T> hijo = nodoActual.getHijo(i);
+            String childLabel = (i == this.orden - 1) ? "└─(" + i + ")" : "├─(" + i + ")";
+            if (hijo != null) {
+                sb.append(toStringVertical(childPrefix, childLabel, hijo));
+            } else {
+                sb.append(childPrefix).append(childLabel).append(" ||\n");
+            }
+        }
+
+        return sb.toString();
+    }
+
 }
