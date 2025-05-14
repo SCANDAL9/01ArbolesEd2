@@ -8,8 +8,10 @@ import ed2.arboles.clases.AVL;
 import ed2.arboles.clases.ArbolBinarioBusqueda;
 import ed2.arboles.clases.ArbolMViasBusqueda;
 import ed2.arboles.clases.IArbolBusqueda;
+import ed2.arboles.examenes.Pregunta01;
 import ed2.arboles.excepciones.ExcepcionDatoNoExiste;
 import ed2.arboles.excepciones.ExcepcionDatoYaExiste;
+import ed2.arboles.excepciones.ExcepcionOrdenInvalido;
 import ed2.arboles.excepciones.ExcepcionRecorridosInvalidos;
 
 /**
@@ -18,7 +20,7 @@ import ed2.arboles.excepciones.ExcepcionRecorridosInvalidos;
  */
 public class TestArboles {
     
-    public static void main(String[] args) throws ExcepcionDatoYaExiste, ExcepcionRecorridosInvalidos, ExcepcionDatoNoExiste {
+    public static void main(String[] args) throws ExcepcionDatoYaExiste, ExcepcionRecorridosInvalidos, ExcepcionDatoNoExiste, ExcepcionOrdenInvalido {
     
         IArbolBusqueda<Integer> arbolBusqueda;
         arbolBusqueda = new ArbolBinarioBusqueda<>();
@@ -103,26 +105,28 @@ public class TestArboles {
         System.out.println(valor1);
 
 
-        ArbolMViasBusqueda<Integer> arbolMVIAS;
-        arbolMVIAS = new ArbolMViasBusqueda<>();
+        Pregunta01<Integer> arbolMVIAS;
+        arbolMVIAS = new Pregunta01<>(4);
 
-        int[] datos = {
+        int[] datos2 = {
                 50, 25, 75, 10, 30, 60, 90,
                 5, 15, 27, 33, 55, 65, 85, 95,
                 1, 8, 12, 20, 28, 35, 58, 62,
                 70, 80, 88, 92, 98, 100, 77
         };
+        int[] datos = {40, 20, 60, 10, 30, 50, 70};
 
         for (int dato : datos) {
             arbolMVIAS.insertar(dato);
         }
 
         System.out.println(arbolMVIAS.toStringVertical());
-        arbolMVIAS.eliminar(75);
 
+        Pregunta01<Integer> Pregunta01 = (Pregunta01<Integer>) arbolMVIAS;
+        int hola = Pregunta01.nivelEnDondeSeEncuentraUnDato(1);
+        System.out.println(hola);
 
-        System.out.println(arbolMVIAS.toStringVertical());
-
-
+        /*System.out.println(arbolMVIAS.toStringVertical());
+        arbolMVIAS.eliminar(75);*/
     }    
 }

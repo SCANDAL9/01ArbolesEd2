@@ -374,6 +374,8 @@ public class ArbolMViasBusqueda<T extends Comparable<T>>
         }
         return nroHijosNoVacios;
     }
+    
+    
 
     @Override
     public String toStringVertical() {
