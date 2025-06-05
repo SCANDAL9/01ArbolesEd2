@@ -1,20 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="737.0" prefWidth="1233.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.grafos.controllers.GrafoVisualizerController">
+<AnchorPane prefHeight="868.0" prefWidth="1282.0" style="-fx-background-color: #f8f3ff;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.grafos.controllers.GrafoVisualizerController">
    <children>
-      <Canvas fx:id="canvasGrafo" height="558.0" layoutX="426.0" layoutY="19.0" width="758.0" />
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e6f3ff" height="197.0" layoutX="27.0" layoutY="118.0" stroke="BLACK" strokeType="INSIDE" width="304.0" />
-      <TextField fx:id="textVertice" layoutX="46.0" layoutY="153.0" />
-      <ComboBox fx:id="origenCombo" layoutX="46.0" layoutY="242.0" prefHeight="25.0" prefWidth="69.0" />
-      <ComboBox fx:id="destinoCombo" layoutX="126.0" layoutY="242.0" prefHeight="25.0" prefWidth="69.0" />
-      <Button fx:id="btnAddVertice" layoutX="46.0" layoutY="192.0" mnemonicParsing="false" onAction="#addVertice" text="Insertar Vertice" />
-      <Button fx:id="btnAddArista" layoutX="212.0" layoutY="242.0" mnemonicParsing="false" onAction="#addArista" text="Insertar Arista" />
+      <Group layoutX="281.0" layoutY="39.0">
+         <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e6f3ff" height="215.0" layoutY="-23.0" stroke="BLACK" strokeType="INSIDE" width="321.0" />
+            <TextField fx:id="textVertice" layoutX="14.0" layoutY="6.0" promptText="Aristas..." />
+            <ComboBox fx:id="origenCombo" layoutX="14.0" layoutY="108.0" prefHeight="25.0" prefWidth="85.0" promptText="Origen" />
+            <ComboBox fx:id="destinoCombo" layoutX="101.0" layoutY="108.0" prefHeight="25.0" prefWidth="85.0" promptText="Destino" />
+            <Button fx:id="btnAddVertice" layoutX="185.0" layoutY="4.0" mnemonicParsing="false" onAction="#addVertice" prefHeight="30.0" prefWidth="105.0" text="Insertar Vertice" />
+            <Button fx:id="btnAddArista" layoutX="204.0" layoutY="106.0" mnemonicParsing="false" onAction="#addArista" prefHeight="30.0" prefWidth="105.0" text="Insertar Arista" />
+            <Button layoutX="186.0" layoutY="41.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Eliminar Vertice" />
+            <Button layoutX="204.0" layoutY="142.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="105.0" text="Eliminar Arista" />
+            <ComboBox layoutX="70.0" layoutY="41.0" prefHeight="25.0" prefWidth="93.0" />
+         </children>
+      </Group>
+      <ScrollPane fx:id="scrollPane1" layoutX="281.0" layoutY="255.0" prefHeight="601.0" prefWidth="986.0">
+         <content>
+            <Pane fx:id="pane1" prefHeight="597.0" prefWidth="983.0">
+               <children>
+                  <Canvas fx:id="canvasGrafo" height="597.0" layoutY="1.0" width="983.0" />
+                  <Button layoutX="944.0" layoutY="13.0" mnemonicParsing="false" text="+" />
+                  <Button layoutX="944.0" layoutY="38.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="24.0" text="-" />
+               </children>
+            </Pane>
+         </content>
+      </ScrollPane>
+      <VBox prefHeight="655.0" prefWidth="264.0" style="-fx-background-color: #3F2B63;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="btnArbolBinario" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="264.0" stylesheets="@css/style.css" text="Arboles Binarios" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="btnArbolMVias" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="264.0" stylesheets="@css/style.css" text="Arboles MVias" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="btnGrafos" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="264.0" stylesheets="@css/style.css" text="Grafos" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
+            <Button fx:id="btnDigrafos" alignment="BASELINE_LEFT" graphicTextGap="15.0" mnemonicParsing="false" prefHeight="102.0" prefWidth="264.0" stylesheets="@css/style.css" text="Digrafos" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <padding>
+                  <Insets left="50.0" />
+               </padding>
+            </Button>
+         </children>
+      </VBox>
+      <VBox layoutX="674.0" layoutY="14.0" prefHeight="232.0" prefWidth="583.0">
+         <children>
+            <ScrollPane prefHeight="219.0" prefWidth="583.0">
+               <content>
+                  <TextArea prefHeight="217.0" prefWidth="581.0" />
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
    </children>
 </AnchorPane>

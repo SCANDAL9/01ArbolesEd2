@@ -23,7 +23,7 @@ public class Grafo <T extends Comparable<T>> {
             insertarVertice(unVertice);
         }
     }
-
+    //valido por grafos  y digrafos
     public void insertarVertice(T nuevoVertice) {
         int nroVertice = getNroVertice(nuevoVertice);
         if (nroVertice != NRO_DE_VERTICE_INVALIDO) {
@@ -34,7 +34,7 @@ public class Grafo <T extends Comparable<T>> {
         List<Integer> adyacenciasDelNuevoVertice = new ArrayList<>();
         listasDeAdyacencias.add(adyacenciasDelNuevoVertice);
     }
-
+    //valido por grafos  y digrafos
     public void eliminarVertice(T unVertice) {
         validarVertice(unVertice);
         int nroVertice = getNroVertice(unVertice);
@@ -52,6 +52,7 @@ public class Grafo <T extends Comparable<T>> {
         }
     }
 
+    //valido por grafos
     public void insertarArista(T verticeOrigen, T verticeDestino)
         throws ExcepcionAristaYaExiste {
         validarVertice(verticeOrigen);
@@ -71,6 +72,7 @@ public class Grafo <T extends Comparable<T>> {
         }
     }
 
+    //valido por grafos
     public void eliminarArista(T verticeOrigen, T verticeDestino)
         throws ExcepcionAristaNoExiste {
         if (existeAdyacencia(verticeOrigen, verticeDestino)) {
@@ -78,29 +80,13 @@ public class Grafo <T extends Comparable<T>> {
             int nroDelVerticeDestino = getNroVertice(verticeDestino);
             List<Integer> adyacentesDelOrigen = listasDeAdyacencias.get(nroDelVerticeOrigen);
             adyacentesDelOrigen.remove((Integer) nroDelVerticeDestino);
-            List<Integer> adyacentesDelDestino = listasDeAdyacencias.get(nroDelVerticeDestino);
-            adyacentesDelDestino.remove((Integer) nroDelVerticeOrigen);
-
-            if (adyacentesDelOrigen.isEmpty()) {
-                listaDeVertices.remove(nroDelVerticeOrigen);
+            if (nroDelVerticeOrigen != nroDelVerticeDestino) {
+                List<Integer> adyacentesDelDestino = listasDeAdyacencias.get(nroDelVerticeDestino);
+                adyacentesDelDestino.remove((Integer) nroDelVerticeOrigen);
             }
-            if (adyacentesDelDestino.isEmpty()) {
-                listaDeVertices.remove(nroDelVerticeDestino);
-            }
-            /*if (adyacentesDelOrigen.isEmpty()) {
-                boolean sinConexiones = true;
-                for (List<Integer> adyacentesDeUnVertice : listasDeAdyacencias) {
-                    if (adyacentesDeUnVertice.contains(nroDelVerticeOrigen)) {
-                        sinConexiones = false;
-                    }
-                }
-                if (sinConexiones) {
-                    listaDeVertices.remove(nroDelVerticeOrigen);
-                }
-              }*/
-
+        } else {
+            throw new ExcepcionAristaNoExiste();
         }
-        throw new ExcepcionAristaNoExiste();
     }
 
     public void validarVertice(T unVertice) {
@@ -125,6 +111,10 @@ public class Grafo <T extends Comparable<T>> {
         int nroVertice = getNroVertice(unVertice);
         List<Integer> adyacentesDelVertice = listasDeAdyacencias.get(nroVertice);
         return adyacentesDelVertice.size();
+    }
+
+    public T getVerticePorIndice(int nroDelVertice) {
+        return listaDeVertices.get(nroDelVertice);
     }
 
     public Iterable<T> getAdyacentesDelVertice(T unVertice) {
@@ -161,7 +151,7 @@ public class Grafo <T extends Comparable<T>> {
         return listaDeVertices;
     }
 
-    public int cantidadDeAristas() {
+    public int cantidadDeAristas2() {
         int cantAristas = 0;
         int indexVertice = 0;
         for (List<Integer> adyacentesDeUnVertice : listasDeAdyacencias) {
@@ -172,6 +162,19 @@ public class Grafo <T extends Comparable<T>> {
             indexVertice++;
         }
         return cantAristas/2;
+    }
+    public int cantidadDeAristas() {
+        int cantAristas = 0;
+        int bucles = 0;
+        for (T unVertice : listaDeVertices) {
+            int nroVertice = getNroVertice(unVertice);
+            List<Integer> adyacentesDelVertice = listasDeAdyacencias.get(nroVertice);
+            if (adyacentesDelVertice.contains(nroVertice)) {
+                bucles += 1;
+            }
+            cantAristas += adyacentesDelVertice.size();
+        }
+        return (bucles + cantAristas) / 2;
     }
 
 }
