@@ -6,8 +6,7 @@ import ed2TDAS.grafos.excepciones.ExcepcionAristaYaExiste;
 import java.util.Collections;
 import java.util.List;
 
-public class DiGrafo <T extends Comparable<T>>
-    extends Grafo <T> {
+public class DiGrafo <T extends Comparable<T>> extends Grafo <T> {
 
     public DiGrafo() {}
 
@@ -33,13 +32,13 @@ public class DiGrafo <T extends Comparable<T>>
     @Override
     public void eliminarArista(T verticeOrigen, T verticeDestino)
             throws ExcepcionAristaNoExiste {
-        if (existeAdyacencia(verticeOrigen, verticeDestino)) {
+        if (!existeAdyacencia(verticeOrigen, verticeDestino)) {
+            throw new ExcepcionAristaNoExiste();
+        } else {
             int nroDelVerticeOrigen = getNroVertice(verticeOrigen);
             int nroDelVerticeDestino = getNroVertice(verticeDestino);
             List<Integer> adyacentesDelOrigen = listasDeAdyacencias.get(nroDelVerticeOrigen);
             adyacentesDelOrigen.remove((Integer) nroDelVerticeDestino);
-        } else {
-            throw new ExcepcionAristaNoExiste();
         }
     }
 

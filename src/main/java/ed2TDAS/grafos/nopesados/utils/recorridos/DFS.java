@@ -1,4 +1,4 @@
-package ed2TDAS.grafos.nopesados.utils;
+package ed2TDAS.grafos.nopesados.utils.recorridos;
 
 import ed2TDAS.grafos.nopesados.Grafo;
 

@@ -75,7 +75,9 @@ public class Grafo <T extends Comparable<T>> {
     //valido por grafos
     public void eliminarArista(T verticeOrigen, T verticeDestino)
         throws ExcepcionAristaNoExiste {
-        if (existeAdyacencia(verticeOrigen, verticeDestino)) {
+        if (!existeAdyacencia(verticeOrigen, verticeDestino)) {
+            throw new ExcepcionAristaNoExiste();
+        } else {
             int nroDelVerticeOrigen = getNroVertice(verticeOrigen);
             int nroDelVerticeDestino = getNroVertice(verticeDestino);
             List<Integer> adyacentesDelOrigen = listasDeAdyacencias.get(nroDelVerticeOrigen);
@@ -84,8 +86,6 @@ public class Grafo <T extends Comparable<T>> {
                 List<Integer> adyacentesDelDestino = listasDeAdyacencias.get(nroDelVerticeDestino);
                 adyacentesDelDestino.remove((Integer) nroDelVerticeOrigen);
             }
-        } else {
-            throw new ExcepcionAristaNoExiste();
         }
     }
 
@@ -127,6 +127,12 @@ public class Grafo <T extends Comparable<T>> {
             listaDeVerticesAdyacentes.add(verticeAdyacente);
         }
         return listaDeVerticesAdyacentes;
+    }
+
+    public List<Integer> getPosAdyacentesDelVertice(T unVertice) {
+        validarVertice(unVertice);
+        int nroDelVertice = getNroVertice(unVertice);
+        return listasDeAdyacencias.get(nroDelVertice);
     }
 
     public int getNroVertice(T unVertice) {
@@ -176,5 +182,4 @@ public class Grafo <T extends Comparable<T>> {
         }
         return (bucles + cantAristas) / 2;
     }
-
 }

@@ -1,6 +1,7 @@
-package ed2TDAS.grafos.nopesados.utils;
+package ed2TDAS.grafos.nopesados.utils.recorridos;
 
 import ed2TDAS.grafos.nopesados.Grafo;
+import ed2TDAS.grafos.nopesados.utils.ControlMarcados;
 
 import java.util.ArrayList;
 import java.util.List;
