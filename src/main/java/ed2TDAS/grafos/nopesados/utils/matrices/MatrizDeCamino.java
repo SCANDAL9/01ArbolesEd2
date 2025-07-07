@@ -2,14 +2,13 @@ package ed2TDAS.grafos.nopesados.utils.matrices;
 
 import ed2TDAS.grafos.nopesados.Grafo;
 
-public class MatrizDeCamino <T extends Comparable<T>> extends MatrizDeAdyacencia<T> {
+public class MatrizDeCamino <T extends Comparable<T>>  {
 
-    public MatrizDeCamino(Grafo<T> grafo) {
-        super(grafo);
-        matrizDeAdyacencia = getMatrizDeCamino();
+    public MatrizDeCamino() {
     }
 
-    public boolean[][] getMatrizDeCamino() {
+    public boolean[][] getMatrizDeCamino
+            (boolean[][] matrizDeAdyacencia) {
         int n = matrizDeAdyacencia.length;
         boolean[][] matrizPotencia = multiplicacionLogica(matrizDeAdyacencia, matrizDeAdyacencia);
         boolean[][] matrizAcumulada = sumaLogica(matrizDeAdyacencia, matrizPotencia);
@@ -18,6 +17,29 @@ public class MatrizDeCamino <T extends Comparable<T>> extends MatrizDeAdyacencia
             matrizAcumulada = sumaLogica(matrizAcumulada, matrizPotencia);
         }
         return matrizAcumulada;
+    }
+
+
+    public boolean[][] getMatrizDeCaminoWarshall(boolean[][] matrizDeAdyacencia) {
+        //Warshall
+        int n = matrizDeAdyacencia.length;
+        boolean[][] P = new boolean[n][n];
+
+        for (int f = 0; f < n; f++) {
+            for (int c = 0; c < n; c++) {
+                P[f][c] = matrizDeAdyacencia[f][c];
+            }
+        }
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i < n; i++) {
+                if (P[i][k]) {
+                    for (int j = 0; j < n; j++) {
+                        P[i][j] = P[i][j] || (P[i][k] && P[k][j]);
+                    }
+                }
+            }
+        }
+        return P;
     }
 
     private boolean[][] multiplicacionLogica(boolean[][] A, boolean[][] B) {

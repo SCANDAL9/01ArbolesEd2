@@ -195,5 +195,20 @@ public class GrafoPesado <T extends Comparable<T>> {
         AdyacenteConPeso adyacencia = adyacentesDelOrigen.get(posAdyacencia);
         return adyacencia.getPeso();
     }
+
+    public String mostrarPesos() throws ExcepcionAristaNoExiste {
+        StringBuilder sb = new StringBuilder();
+        for (T vertice : listaDeVertices) {
+            List<T> adyacencias = (List<T>) getAdyacentesDelVertice(vertice);
+            for (T adyacente : adyacencias) {
+                double peso = peso(vertice, adyacente);
+                sb.append("De ").append(vertice)
+                        .append(" a ").append(adyacente)
+                        .append(" : ").append(peso)
+                        .append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
 

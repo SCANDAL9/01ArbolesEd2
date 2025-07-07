@@ -114,6 +114,9 @@ public class Grafo <T extends Comparable<T>> {
     }
 
     public T getVerticePorIndice(int nroDelVertice) {
+        if (nroDelVertice >= listaDeVertices.size()) {
+            throw new IllegalArgumentException("Posicion de Vertice Invalida");
+        }
         return listaDeVertices.get(nroDelVertice);
     }
 
@@ -146,6 +149,9 @@ public class Grafo <T extends Comparable<T>> {
     }
 
     public T getVertice(int indice) {
+        if (indice >= listaDeVertices.size()) {
+            throw new IllegalArgumentException("Posicion de Vertice Invalida");
+        }
         return listaDeVertices.get(indice);
     }
 
