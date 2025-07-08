@@ -34,6 +34,23 @@ public class CostoMinimo<T extends Comparable<T>> {
         }
         return grafoPAux;
     }
+    private List<AristaConPeso> listaDeAristasOrdenadasPorPeso(GrafoPesado<T> elGrafo) throws ExcepcionAristaNoExiste {
+        List<T> vertices = (List<T>) elGrafo.getVertices();
+        List<AristaConPeso> listaDeAristas = new ArrayList<>();
+        for (T vertice : vertices) {
+            int nroVertice = elGrafo.getNroVertice(vertice);
+            List<T> adyacencias = (List<T>) elGrafo.getAdyacentesDelVertice(vertice);
+            for (T adyacente : adyacencias) {
+                int nroAdyacente = elGrafo.getNroVertice(adyacente);
+                if (elGrafo instanceof DiGrafoPesado<T> || (nroAdyacente > nroVertice)) {
+                    double peso = elGrafo.peso(vertice, adyacente);
+                    listaDeAristas.add(new AristaConPeso(nroVertice, nroAdyacente, peso));
+                }
+            }
+        }
+        Collections.sort(listaDeAristas);
+        return listaDeAristas;
+    }
 
     public GrafoPesado<T> algoritmoDePrim() throws ExcepcionAristaNoExiste, ExcepcionAristaYaExiste {
         if (!(grafoPesao instanceof GrafoPesado<T>)) {
@@ -70,25 +87,6 @@ public class CostoMinimo<T extends Comparable<T>> {
     }
 
 
-    private List<AristaConPeso> listaDeAristasOrdenadasPorPeso(GrafoPesado<T> elGrafo) throws ExcepcionAristaNoExiste {
-        List<T> vertices = (List<T>) elGrafo.getVertices();
-        List<AristaConPeso> listaDeAristas = new ArrayList<>();
-        for (T vertice : vertices) {
-            int nroVertice = elGrafo.getNroVertice(vertice);
-            List<T> adyacencias = (List<T>) elGrafo.getAdyacentesDelVertice(vertice);
-            for (T adyacente : adyacencias) {
-                int nroAdyacente = elGrafo.getNroVertice(adyacente);
-                if (elGrafo instanceof DiGrafoPesado<T> || (nroAdyacente < nroVertice)) {
-                    double peso = elGrafo.peso(vertice, adyacente);
-                    listaDeAristas.add(new AristaConPeso(nroVertice, nroAdyacente, peso));
-                }
-            }
-        }
-        Collections.sort(listaDeAristas);
-        return listaDeAristas;
-    }
-
-    //sin terminar
     public String algoritmoDeFloydWarshall(T verticeOrigen, T verticeDestino) throws ExcepcionAristaNoExiste {
         if (!(grafoPesao instanceof DiGrafoPesado<T>)) {
             throw new IllegalArgumentException("Se requiere un Grafo Dirigido");

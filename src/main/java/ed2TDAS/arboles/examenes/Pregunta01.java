@@ -10,10 +10,11 @@ import ed2TDAS.arboles.excepciones.ExcepcionOrdenInvalido;
  */
 public class Pregunta01 <T extends Comparable<T>> extends ArbolMViasBusqueda {
     /*
-     *  1. Para un árbol mvias de búsqueda implementar un método que reciba una clave, la busque en el árbol,
-     *  en caso de encontrar la llave que retorne en que nivel está. Que retorne -1 en caso de no estar la clave
-     *  en el árbol. La implementación debe ser recursiva.
+     *  1. Para un árbol mvias de búsqueda implementar un método que reciba una clave, la busque
+     *  en el árbol, en caso de encontrar la llave que retorne en que nivel está. Que retorne -1
+     *  en caso de no estar la clave en el árbol. La implementación debe ser recursiva.
      */
+
     public Pregunta01(int orden) throws ExcepcionOrdenInvalido {
         super(orden);
     }

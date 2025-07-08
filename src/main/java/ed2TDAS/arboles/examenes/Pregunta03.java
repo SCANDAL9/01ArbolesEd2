@@ -2,7 +2,7 @@ package ed2TDAS.arboles.examenes;
 
 import ed2TDAS.arboles.clases.ArbolBinarioBusqueda;
 
-public class Pregunta03 <T extends Comparable<T>> extends ArbolBinarioBusqueda {
+public class Pregunta03 <T extends Comparable<T>> extends ArbolBinarioBusqueda<T> {
 
     /**
      * 3.  Para un árbol binario implementar un método que retorne verdadero si el árbol es zurdo,

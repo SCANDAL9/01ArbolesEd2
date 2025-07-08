@@ -8,9 +8,9 @@ import ed2TDAS.grafos.pesados.utils.CostoMinimo;
 
 public class TestGrafosPesados {
     public static <T> void main(String[] args) throws ExcepcionAristaYaExiste, ExcepcionAristaNoExiste {
-        //GrafoPesado<String> unGrafo = new GrafoPesado<String>();
-        DiGrafoPesado<String> unGrafo = new DiGrafoPesado<String>();
-        /*unGrafo.insertarVertice("1");
+        GrafoPesado<String> unGrafo = new GrafoPesado<String>();
+        //DiGrafoPesado<String> unGrafo = new DiGrafoPesado<String>();
+        unGrafo.insertarVertice("1");
         unGrafo.insertarVertice("2");
         unGrafo.insertarVertice("3");
         unGrafo.insertarVertice("4");
@@ -41,9 +41,9 @@ public class TestGrafosPesados {
         unGrafo.insertarArista("7","10",6);
         unGrafo.insertarArista("7","8",12);
         unGrafo.insertarArista("8","10",12);
-        unGrafo.insertarArista("9","10",7);*/
+        unGrafo.insertarArista("9","10",7);
 
-        unGrafo.insertarVertice("V1");
+        /*unGrafo.insertarVertice("V1");
         unGrafo.insertarVertice("V2");
         unGrafo.insertarVertice("V3");
         unGrafo.insertarVertice("V4");
@@ -57,18 +57,18 @@ public class TestGrafosPesados {
         unGrafo.insertarArista("V3","V5",4);
         unGrafo.insertarArista("V4","V1",6);
         unGrafo.insertarArista("V4","V5",2);
-        unGrafo.insertarArista("V5","V4",3);
+        unGrafo.insertarArista("V5","V4",3);*/
 
         System.out.println(unGrafo.mostrarPesos());
         System.out.println(unGrafo.getVertices());
 
         CostoMinimo<String> prueba = new CostoMinimo<>(unGrafo);
-        //GrafoPesado<String> grafo2 = prueba.algoritmoDeKruskal();
+        GrafoPesado<String> grafo2 = prueba.algoritmoDeKruskal();
         //GrafoPesado<String> grafo3 = prueba.algoritmoDePrim();
 
-        System.out.println(prueba.algoritmoDeFloydWarshall("V1","V3"));
+        //System.out.println(prueba.algoritmoDeFloydWarshall("V1","V3"));
 
-        //System.out.println(grafo2.mostrarPesos());
+        System.out.println(grafo2.mostrarPesos());
         //System.out.println(grafo3.mostrarPesos());
 
 
