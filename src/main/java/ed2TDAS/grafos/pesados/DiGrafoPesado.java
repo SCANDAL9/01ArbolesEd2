@@ -78,4 +78,38 @@ public class DiGrafoPesado<T extends Comparable<T>> extends GrafoPesado<T>{
         }
         return cantAristas;
     }
+
+    @Override
+    public String mostrarPesos() {
+        StringBuilder sb = new StringBuilder();
+
+        // Mostrar lista de aristas con pesos
+        sb.append("\n📋 LISTA DE ARISTAS (GRAFO DIRIGIDO):\n");
+        sb.append("─".repeat(35)).append("\n");
+
+        try {
+            for (int i = 0; i < listaDeVertices.size(); i++) {
+                T verticeOrigen = listaDeVertices.get(i);
+                List<AdyacenteConPeso> adyacentes = listasDeAdyacencias.get(i);
+
+                for (AdyacenteConPeso ady : adyacentes) {
+                    T verticeDestino = listaDeVertices.get(ady.getIndiceVertice());
+                    double peso = ady.getPeso();
+
+                    if (i == ady.getIndiceVertice()) {
+                        // Lazo
+                        sb.append(String.format("  %s ⟲ %s  [peso: %.2f]\n", verticeOrigen, verticeDestino, peso));
+                    } else {
+                        // Arista dirigida
+                        sb.append(String.format("  %s ➝ %s  [peso: %.2f]\n", verticeOrigen, verticeDestino, peso));
+                    }
+                }
+            }
+        } catch (Exception e) {
+            sb.append("  Error al mostrar aristas\n");
+        }
+
+        return sb.toString();
+    }
+
 }

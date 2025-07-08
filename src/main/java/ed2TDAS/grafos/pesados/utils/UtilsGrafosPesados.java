@@ -7,9 +7,9 @@ import ed2TDAS.grafos.pesados.GrafoPesado;
 
 import java.util.List;
 
-public class UtilGrafosPesados<T extends Comparable<T>> {
+public class UtilsGrafosPesados<T extends Comparable<T>> {
 
-    public UtilGrafosPesados() {
+    public UtilsGrafosPesados() {
     }
 
     public boolean existeCicloEnGrafo(GrafoPesado<T> elGrafo) throws ExcepcionAristaYaExiste, ExcepcionAristaNoExiste {

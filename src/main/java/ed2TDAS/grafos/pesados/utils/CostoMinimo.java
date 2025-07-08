@@ -22,7 +22,7 @@ public class CostoMinimo<T extends Comparable<T>> {
         }
         GrafoPesado<T> grafoPAux = new GrafoPesado<T>(grafoPesao.getVertices());
         List<AristaConPeso> aristasConPesos = listaDeAristasOrdenadasPorPeso(grafoPesao);
-        UtilGrafosPesados<T> utils = new UtilGrafosPesados<>();
+        UtilsGrafosPesados<T> utils = new UtilsGrafosPesados<>();
         for (AristaConPeso arista : aristasConPesos) {
             T verticeOrigen = grafoPesao.getVertice(arista.getOrigen());
             T verticeDestino = grafoPesao.getVertice(arista.getDestino());
@@ -89,33 +89,82 @@ public class CostoMinimo<T extends Comparable<T>> {
     }
 
     //sin terminar
-    private void algoritmoDeFloyd() throws ExcepcionAristaNoExiste {
+    public String algoritmoDeFloydWarshall(T verticeOrigen, T verticeDestino) throws ExcepcionAristaNoExiste {
         if (!(grafoPesao instanceof DiGrafoPesado<T>)) {
             throw new IllegalArgumentException("Se requiere un Grafo Dirigido");
         }
-        int n = grafoPesao.cantidadDeVertices();
 
-        int[][] Pred = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                Pred[i][j] = -1;
+        int n = grafoPesao.cantidadDeVertices();
+        class Matrices {
+            int[][] Pred;
+            double[][] P;
+            public Matrices () throws ExcepcionAristaNoExiste {
+                Pred = new int[n][n];
+                for (int i = 0; i < n; i++) {
+                    for (int j = 0; j < n; j++) {
+                        Pred[i][j] = -1;
+                    }
+                }
+                UtilsGrafosPesados utils = new UtilsGrafosPesados<>();
+                P = utils.armarMatrizConPeso(grafoPesao);
+                armarMatrices();
             }
 
-        }
-        UtilGrafosPesados utils = new UtilGrafosPesados<>();
-        double[][] P = utils.armarMatrizConPeso(grafoPesao);
-
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (P[i][j] > (P[i][k] + P[k][j])) {
-                        P[i][j] = P[i][k] + P[k][j];
-                        Pred[i][j] = k;
+            public void armarMatrices () {
+                for (int k = 0; k < n; k++) {
+                    for (int i = 0; i < n; i++) {
+                        for (int j = 0; j < n; j++) {
+                            if (P[i][j] > (P[i][k] + P[k][j])) {
+                                P[i][j] = P[i][k] + P[k][j];
+                                Pred[i][j] = k;
+                            }
+                        }
                     }
                 }
             }
+
+            public String mostrarCamino(T origen, T destino) {
+                grafoPesao.validarVertice(origen);
+                grafoPesao.validarVertice(destino);
+                int nroOrigen = grafoPesao.getNroVertice(origen);
+                int nroDestino = grafoPesao.getNroVertice(destino);
+                StringBuilder sb = new StringBuilder();
+
+                if (P[nroOrigen][nroDestino] == Double.POSITIVE_INFINITY) {
+                    sb.append("No hay camino");
+                    return sb.toString();
+                }
+
+                sb.append("Camino de costo minimo de ").append(origen)
+                        .append(" a vertice ").append(destino)
+                        .append(" es: ").append(P[nroOrigen][nroDestino])
+                        .append("\n");
+
+                sb.append("El camino tiene la siguiente secuencia: ");
+                sb.append(origen).append(" -> ")
+                        .append(imprimirIntermedios(nroOrigen,nroDestino))
+                        .append(destino);
+                return sb.toString();
+            }
+
+            public String imprimirIntermedios(int origen, int destino) {
+                int intermedio = Pred[origen][destino];
+                if (intermedio == -1) {
+                    return "";
+                }
+                StringBuilder sb = new StringBuilder();
+
+                if (intermedio != destino) {
+                    sb.append(imprimirIntermedios(origen, intermedio))
+                            .append(grafoPesao.getVertice(intermedio))
+                            .append(imprimirIntermedios(intermedio, destino));
+                }
+                return sb.append(" -> ").toString();
+            }
+
         }
+
+        Matrices floydW = new Matrices();
+        return floydW.mostrarCamino(verticeOrigen,verticeDestino);
     }
-    //si hay camino que me devuelva el costo
-    //so hay camino que me devuelva el recorrido
 }

@@ -246,52 +246,6 @@ public class GrafoPesado <T extends Comparable<T>> {
         return sb.toString();
     }
 
-    private String crearRepresentacionMatriz() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("📊 MATRIZ DE ADYACENCIA VISUAL:\n");
-        sb.append("─".repeat(40)).append("\n");
-
-        // Encabezado con los vértices
-        sb.append("    ");
-        for (T vertice : listaDeVertices) {
-            sb.append(String.format("%6s", vertice.toString()));
-        }
-        sb.append("\n");
-
-        // Línea separadora
-        sb.append("    ");
-        for (int i = 0; i < listaDeVertices.size(); i++) {
-            sb.append("──────");
-        }
-        sb.append("\n");
-
-        // Filas de la matriz
-        for (int i = 0; i < listaDeVertices.size(); i++) {
-            T verticeI = listaDeVertices.get(i);
-            sb.append(String.format("%3s │", verticeI.toString()));
-
-            for (int j = 0; j < listaDeVertices.size(); j++) {
-                T verticeJ = listaDeVertices.get(j);
-
-                if (existeAdyacencia(verticeI, verticeJ)) {
-                    try {
-                        double peso = peso(verticeI, verticeJ);
-                        sb.append(String.format("%6.1f", peso));
-                    } catch (Exception e) {
-                        sb.append("  ●   ");
-                    }
-                } else {
-                    sb.append("  ─   ");
-                }
-            }
-            sb.append("\n");
-        }
-
-        sb.append("\nLeyenda: números = peso de arista, ─ = sin conexión, ● = error\n");
-
-        return sb.toString();
-    }
 
 }
 
