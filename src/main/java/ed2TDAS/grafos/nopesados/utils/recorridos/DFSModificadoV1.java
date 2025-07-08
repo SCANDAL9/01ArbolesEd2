@@ -19,8 +19,6 @@ public class DFSModificadoV1<T extends Comparable<T>> {
     }
 
     public boolean existeCicloEnGrafo() throws ExcepcionAristaYaExiste {
-        //boolean ciclo = dfsGrafo.buscarCicloEnGrafo(unGrafo.getVertice(0));
-        //while (!dfsGrafo.seVisitoTodosLosVertices() && !ciclo) {
         if (!(elGrafo instanceof Grafo<T>)) {
             throw new IllegalArgumentException("Se requiere un Grafo No Dirigido");
         }

@@ -2,6 +2,7 @@ package ed2TDAS.grafos.pesados;
 
 import ed2TDAS.grafos.excepciones.ExcepcionAristaNoExiste;
 import ed2TDAS.grafos.excepciones.ExcepcionAristaYaExiste;
+import ed2TDAS.grafos.pesados.utils.AdyacenteConPeso;
 
 import java.util.Collections;
 import java.util.List;

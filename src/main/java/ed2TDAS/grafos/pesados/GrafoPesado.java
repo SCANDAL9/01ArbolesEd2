@@ -2,6 +2,7 @@ package ed2TDAS.grafos.pesados;
 
 import ed2TDAS.grafos.excepciones.ExcepcionAristaNoExiste;
 import ed2TDAS.grafos.excepciones.ExcepcionAristaYaExiste;
+import ed2TDAS.grafos.pesados.utils.AdyacenteConPeso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -115,10 +116,6 @@ public class GrafoPesado <T extends Comparable<T>> {
         return adyacentesDelVertice.size();
     }
 
-    public T getVerticePorIndice(int nroDelVertice) {
-        return listaDeVertices.get(nroDelVertice);
-    }
-
     public Iterable<T> getAdyacentesDelVertice(T unVertice) {
         validarVertice((unVertice));
         int nroDelVertice = getNroVertice(unVertice);
@@ -142,6 +139,9 @@ public class GrafoPesado <T extends Comparable<T>> {
     }
 
     public T getVertice(int indice) {
+        if (indice >= listaDeVertices.size()) {
+            throw new IllegalArgumentException("Posicion de Vertice Invalida");
+        }
         return listaDeVertices.get(indice);
     }
 
@@ -196,7 +196,7 @@ public class GrafoPesado <T extends Comparable<T>> {
         return adyacencia.getPeso();
     }
 
-    public String mostrarPesos() throws ExcepcionAristaNoExiste {
+    public String mostrarPesos2() throws ExcepcionAristaNoExiste {
         StringBuilder sb = new StringBuilder();
         for (T vertice : listaDeVertices) {
             List<T> adyacencias = (List<T>) getAdyacentesDelVertice(vertice);
@@ -210,5 +210,88 @@ public class GrafoPesado <T extends Comparable<T>> {
         }
         return sb.toString();
     }
+
+    public String mostrarPesos() {
+        StringBuilder sb = new StringBuilder();
+
+        // Mostrar lista de aristas con pesos
+        sb.append("\n📋 LISTA DE ARISTAS:\n");
+        sb.append("─".repeat(30)).append("\n");
+
+        try {
+            for (int i = 0; i < listaDeVertices.size(); i++) {
+                T vertice = listaDeVertices.get(i);
+                List<AdyacenteConPeso> adyacentes = listasDeAdyacencias.get(i);
+
+                for (AdyacenteConPeso ady : adyacentes) {
+                    T destino = listaDeVertices.get(ady.getIndiceVertice());
+                    double peso = ady.getPeso();
+
+                    // Solo mostrar cada arista una vez (evitar duplicados)
+                    if (i <= ady.getIndiceVertice()) {
+                        if (i == ady.getIndiceVertice()) {
+                            // Lazo
+                            sb.append(String.format("  %s ⟲ %s  [peso: %.2f]\n", vertice, destino, peso));
+                        } else {
+                            // Arista normal
+                            sb.append(String.format("  %s ━━━ %s  [peso: %.2f]\n", vertice, destino, peso));
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            sb.append("  Error al mostrar aristas\n");
+        }
+
+        return sb.toString();
+    }
+
+    private String crearRepresentacionMatriz() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("📊 MATRIZ DE ADYACENCIA VISUAL:\n");
+        sb.append("─".repeat(40)).append("\n");
+
+        // Encabezado con los vértices
+        sb.append("    ");
+        for (T vertice : listaDeVertices) {
+            sb.append(String.format("%6s", vertice.toString()));
+        }
+        sb.append("\n");
+
+        // Línea separadora
+        sb.append("    ");
+        for (int i = 0; i < listaDeVertices.size(); i++) {
+            sb.append("──────");
+        }
+        sb.append("\n");
+
+        // Filas de la matriz
+        for (int i = 0; i < listaDeVertices.size(); i++) {
+            T verticeI = listaDeVertices.get(i);
+            sb.append(String.format("%3s │", verticeI.toString()));
+
+            for (int j = 0; j < listaDeVertices.size(); j++) {
+                T verticeJ = listaDeVertices.get(j);
+
+                if (existeAdyacencia(verticeI, verticeJ)) {
+                    try {
+                        double peso = peso(verticeI, verticeJ);
+                        sb.append(String.format("%6.1f", peso));
+                    } catch (Exception e) {
+                        sb.append("  ●   ");
+                    }
+                } else {
+                    sb.append("  ─   ");
+                }
+            }
+            sb.append("\n");
+        }
+
+        sb.append("\nLeyenda: números = peso de arista, ─ = sin conexión, ● = error\n");
+
+        return sb.toString();
+    }
+
 }
 

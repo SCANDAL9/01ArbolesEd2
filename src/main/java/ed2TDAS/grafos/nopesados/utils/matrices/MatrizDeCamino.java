@@ -7,8 +7,7 @@ public class MatrizDeCamino <T extends Comparable<T>>  {
     public MatrizDeCamino() {
     }
 
-    public boolean[][] getMatrizDeCamino
-            (boolean[][] matrizDeAdyacencia) {
+    public boolean[][] getMatrizDeCamino(boolean[][] matrizDeAdyacencia) {
         int n = matrizDeAdyacencia.length;
         boolean[][] matrizPotencia = multiplicacionLogica(matrizDeAdyacencia, matrizDeAdyacencia);
         boolean[][] matrizAcumulada = sumaLogica(matrizDeAdyacencia, matrizPotencia);

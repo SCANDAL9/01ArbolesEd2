@@ -1,4 +1,4 @@
-package ed2TDAS.grafos.pesados;
+package ed2TDAS.grafos.pesados.utils;
 
 public class AdyacenteConPeso implements Comparable<AdyacenteConPeso> {
     private int indiceVertice;
